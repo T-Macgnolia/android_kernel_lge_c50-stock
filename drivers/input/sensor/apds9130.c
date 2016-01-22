@@ -930,10 +930,6 @@ static void apds9930_change_als_threshold(struct i2c_client *client)
 	if ((data->als_cdata0 > data->ailt) && (data->als_cdata0 >= data->aiht)) {
 		/* strong light detected */
 		data->als_detection = 1;
-#ifndef CONFIG_MACH_MSM8916_C50_CRK_US
-		apds9130_set_ailt(client, data->als_lower_threshold);
-		apds9130_set_aiht(client, 65535);
-#endif
 
 		SENSOR_LOG("Dark -> Bright detected ");
 
@@ -943,11 +939,6 @@ static void apds9930_change_als_threshold(struct i2c_client *client)
 	} else if ((data->als_cdata0 <= data->ailt) && (data->als_cdata0 < data->aiht)) {
 		/* dark detected */
 		data->als_detection = 0;
-
-#ifndef CONFIG_MACH_MSM8916_C50_CRK_US
-		apds9130_set_ailt(client, 0);
-		apds9130_set_aiht(client, data->als_upper_threshold);
-#endif
 
 		SENSOR_LOG("Bright -> Dark detected ");
 
